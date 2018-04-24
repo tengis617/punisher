@@ -7,11 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	xrp = "xrp"
-	btc = "btc"
-)
-
 func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
