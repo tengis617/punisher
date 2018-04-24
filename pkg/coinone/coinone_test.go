@@ -7,6 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	xrp = "xrp"
+	btc = "btc"
+)
+
 func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
@@ -14,10 +19,14 @@ func TestMain(m *testing.M) {
 func TestGetOrderbook(t *testing.T) {
 	assert := assert.New(t)
 
-	t.Run("should return no error", func(t *testing.T) {
-		orderbook, err := GetOrderbook()
+	t.Run("should return the orderbook", func(t *testing.T) {
+		orderbook := GetOrderbook("btc")
 		assert.NotNil(orderbook)
-		assert.Nil(err)
-		assert.NotNil(orderbook)
+		assert.Equal("success", orderbook.Result)
+	})
+	t.Run("should return xrp orderbook", func(t *testing.T) {
+		orderbook := GetOrderbook("xrp")
+		assert.Equal("xrp", orderbook.Currency)
+		assert.Equal("success", orderbook.Result)
 	})
 }

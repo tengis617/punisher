@@ -1,8 +1,6 @@
 package coinone
 
 import (
-	"log"
-
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -23,7 +21,7 @@ type Order struct {
 }
 
 const (
-	coinoneURL = "https://api.coinone.co.kr/"
+	coinoneURL = "https://api.coinone.co.kr"
 )
 
 var (
@@ -35,12 +33,11 @@ func init() {
 }
 
 // GetOrderbook gets the orderbook from coinone
-func GetOrderbook() (*Orderbook, error) {
+func GetOrderbook(currency string) *Orderbook {
 	orderbook := &Orderbook{}
-	_, _, errs := client.Get("https://api.coinone.co.kr/orderbook/").EndStruct(orderbook)
-
-	if errs != nil {
-		log.Printf("could not fetch: %v", errs)
-	}
-	return orderbook, nil
+	url := coinoneURL + "/orderbook/?currency=" + currency
+	// Im not sure i agree with gorequest on returning an array of errors as it gets hard to deal with
+	// would like to move to a different library ...
+	client.Get(url).EndStruct(orderbook)
+	return orderbook
 }
