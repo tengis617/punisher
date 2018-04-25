@@ -24,4 +24,9 @@ func TestGetOrderbook(t *testing.T) {
 		assert.Equal("xrp", orderbook.Currency)
 		assert.Equal("success", orderbook.Result)
 	})
+	t.Run("should not return 0 ask price", func(t *testing.T) {
+		orderbook := GetOrderbook("xrp")
+		assert.Equal(false, orderbook.Ask[0].Price == "0")
+
+	})
 }

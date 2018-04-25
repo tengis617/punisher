@@ -1,4 +1,4 @@
-package coinone
+package bx
 
 import (
 	"github.com/parnurzeal/gorequest"
@@ -6,22 +6,12 @@ import (
 
 // Orderbook contains information of the current orders at the exchange
 type Orderbook struct {
-	Result    string  `json:"result"`
-	ErrorCode string  `json:"errorCode"`
-	Ask       []Order `json:"ask"`
-	Bid       []Order `json:"bid"`
-	Timestamp int     `json:"timestamp"`
-	Currency  string  `json:"currency"`
-}
-
-// Order is a bid/ask order on the exchange
-type Order struct {
-	Price int     `json:"price"`
-	Qty   float64 `json:"qty"`
+	Asks [][2]string `json:"asks"`
+	Bids [][2]string `json:"bids"`
 }
 
 const (
-	coinoneURL = "https://api.coinone.co.kr"
+	exchangeURL = "https://bx.in.th/api"
 )
 
 var (
@@ -33,9 +23,9 @@ func init() {
 }
 
 // GetOrderbook gets the orderbook from coinone
-func GetOrderbook(currency string) *Orderbook {
+func GetOrderbook(pairingID string) *Orderbook {
 	orderbook := &Orderbook{}
-	url := coinoneURL + "/orderbook/?currency=" + currency
+	url := exchangeURL + "/orderbook/?pairing=" + pairingID
 	// Im not sure i agree with gorequest on returning an array of errors as it gets hard to deal with
 	// would like to move to a different library ...
 	client.Get(url).EndStruct(orderbook)
